@@ -1,4 +1,4 @@
-package com.example.first_app
+package student.english-night
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

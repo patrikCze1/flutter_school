@@ -35,11 +35,12 @@ class Games extends StatelessWidget {
   }
 
   Widget _row(BuildContext context, Game game) {
+    final String date = game.date.day.toString() + '/' + game.date.month.toString() + '/' + game.date.year.toString() + ' ' + game.date.hour.toString() + ':' + game.date.minute.toString();
     return Card(child:
     ListTile(
       leading: Icon(Icons.local_drink),
       title: Text(game.name),
-      subtitle: Text('29.8.2020'),//'5 people'
+      subtitle: Text(date),//'5 people'
       trailing: Icon(Icons.check_circle_outline, color: Colors.blueAccent,),//podle toho jestli tam jsem
       onTap: () => _onGameTap(context, game.id), //action
     )

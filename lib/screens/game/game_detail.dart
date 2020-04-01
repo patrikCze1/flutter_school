@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../main.dart';
 import '../../models/game.dart';
+import '../../models/user.dart';
 import '../../models/task.dart';
 import '../../models/check_point.dart';
 import '../../controllers/check_point_controller.dart';
@@ -37,19 +38,12 @@ class GameDetail extends StatelessWidget {
               height: 130.0,
               child: new ListView(
                 scrollDirection: Axis.horizontal,
-                children: new List.generate(10, (int index) {
-                  return new Card(
-                    color: Colors.blue[index * 100],
-                    child: new Container(
-                      width: 100.0,
-                      height: 100.0,
-                      child: new Text("$index"),
-                    ),
-                  );
-                }),
+                children: <Widget> [
+                  
+                ]..addAll(_users(game))
+                ),
               ),
-            ),
-        ]..addAll(_checkPoints(game.tasks)), //add list of sections to column
+        ]..addAll(_checkPoints(game.tasks, context)), //add list of sections to column
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _addTask(context, game.id),
@@ -59,7 +53,7 @@ class GameDetail extends StatelessWidget {
     );
   }
 
-  List<Widget> _checkPoints(List<Task> tasks) {
+  List<Widget> _checkPoints(List<Task> tasks, BuildContext context) {
     return tasks
         .map((task) => Card(
               margin: const EdgeInsets.all(6.0),
@@ -73,7 +67,7 @@ class GameDetail extends StatelessWidget {
                         color: Colors.green[600],
                       )
                     : Text(''),
-                //onTap: _onTaskTap(context, task.id),
+                onTap: () => _onTaskTap(context, task.id),
               ),
             ))
         .toList();
@@ -82,6 +76,22 @@ class GameDetail extends StatelessWidget {
   CheckPoint _getCheckPoint(int checkPointId) {
     CheckPoint chp = CheckPoint.fetchById(checkPointId);
     return chp;
+  }
+
+  List <Widget> _users(Game game) {
+    List<User> users = User.fetchAll();
+
+    return users.map((user) => Card(
+      child: new Container(
+        width: 100.0,
+        height: 100.0,
+        decoration: new BoxDecoration(
+          image: DecorationImage(image: AssetImage('assets/images/' + user.photo)) 
+        ), 
+        child: new Text(user.name + ', ' + user.age.toString(), style: TextStyle(color: Colors.black,)),
+      ),
+    )
+    ).toList();
   }
 
   _onGameSettingsTap(BuildContext context, int gameId) {

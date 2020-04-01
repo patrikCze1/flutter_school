@@ -1,4 +1,4 @@
-import 'package:first_app/controllers/game_controller.dart';
+import '../controllers/game_controller.dart';
 import 'package:flutter/material.dart';
 import '../models/game.dart';
 
@@ -16,7 +16,7 @@ class _UpdateGametate extends State<UpdateGame> {
 
   @override
   Widget build(BuildContext context) {
-    Game game = new Game(null, null, null, null, null);
+    Game game = new Game(null, null, null, null, null, null, null, null);
 
     return Form(
         key: _formKey,

@@ -1,13 +1,13 @@
-import 'package:first_app/models/check_point.dart';
+import './check_point.dart';
 import './check_point.dart';
 import '../controllers/check_point_controller.dart';
 
 class Task {
   final int id;
-  final String title;
-  final String text;
-  final int checkPointId;
-  final bool completed;
+  String title;
+  String text;
+  int checkPointId;
+  bool completed;
 
   Task(this.id, this.title, this.text, this.checkPointId, this.completed);
 
@@ -30,11 +30,6 @@ class Task {
         return task;
       }
     }
-  }
-
-  void addTask(Task task) {
-    List<Task> tasks = Task.fetchAll();
-    tasks.add(task);
   }
 
   static CheckPoint getCheckPoint(int checkPointId) {

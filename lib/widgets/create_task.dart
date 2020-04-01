@@ -1,18 +1,24 @@
+import 'package:first_app/controllers/task_controller.dart';
+
 import '../controllers/game_controller.dart';
 import 'package:flutter/material.dart';
-import '../models/game.dart';
+import '../models/task.dart';
 
-class CreateGameForm extends StatefulWidget {
+class CreateTaskForm extends StatefulWidget {
+  final int _gameId;
+
+  CreateTaskForm(this._gameId);
+
   @override
-  _CreateGameFormState createState() => _CreateGameFormState();
+  _CreateTaskFormState createState() => _CreateTaskFormState();
 }
 
-class _CreateGameFormState extends State<CreateGameForm> {
+class _CreateTaskFormState extends State<CreateTaskForm> {
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    Game game = new Game(null, null, null, null, null, null, null, null);
+    Task task = new Task(null, null, null, null, false);
 
     return Form(
         key: _formKey,
@@ -20,46 +26,36 @@ class _CreateGameFormState extends State<CreateGameForm> {
           children: <Widget>[
             CustomField(
               TextFormField(
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: InputDecoration(labelText: 'Title'),
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Please fill name';
+                    return 'Please fill title';
                   }
                   return null;
                 },
-                onSaved: (value) => setState(() => game.name = value),
+                onSaved: (value) => setState(() => task.title = value),
+              ),
+            ),
+            CustomField(
+              TextFormField(
+                maxLines: 4,
+                decoration: InputDecoration(labelText: 'Text'),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please fill text';
+                  }
+                  return null;
+                },
+                onSaved: (value) => setState(() => task.text = value),
               ),
             ),
             CustomField(
               TextFormField(
                 decoration: InputDecoration(labelText: 'Position'),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please fill position';
-                  }
-                  return null;
-                },
-                onSaved: (value) => setState(() => game.position = value),
+                onSaved: (value) => setState(() => task.checkPointId = int.parse(value)),
               ),
             ),
-            CustomField(
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Profile photo'),
-                onSaved: (value) => setState(() => game.photo = value),
-              ),
-            ),
-            CustomField(
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Date'),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please fill date';
-                  }
-                  return null;
-                },
-                //onSaved: (value) => setState(() => game.photo = value),
-              ),
-            ),
+            
             RaisedButton(
               onPressed: _submitForm,
               child: Container(
@@ -77,9 +73,9 @@ class _CreateGameFormState extends State<CreateGameForm> {
   _submitForm() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save(); //will save form
-      var gameController = new GameController();
-      print('creating game');
-      //gameController.createGame(game);
+      TaskController tc = new TaskController();
+      //tc.save(task);
+      print('creating task');
 
       Scaffold.of(context).showSnackBar(SnackBar(content: Text('Saving Data')));
 
